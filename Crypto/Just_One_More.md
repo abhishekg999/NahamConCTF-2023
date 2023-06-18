@@ -58,7 +58,7 @@ Output vector as characters:
 gh\cw_ba8f`7c7ggic4fb8g3a3g/7d.edbb_^{
 ```
 
-However one thing about this CTF in specific, is the flag structure. We know that the flag is of the form, `flag\{[0-9a-f]{32}\}.` Due to this, I decided to write a solver using `z3`.
+However one thing about this CTF in specific, is the flag structure, and more specifically the **limited character set**. We know that the flag is of the form, `flag\{[0-9a-f]{32}\}.` Due to this, I decided to write a solver using `z3`.
 
 
 ```py
