@@ -91,19 +91,33 @@ MOVING VALUE 112 from loc 0 to 576
 One thing when I was trying to find a flag here initially is I was not sure what I was looking for, and was trying to find ASCII text, however later realized that what I needed was just 16, 2 digit hex values (which hey! we have!). 
 
 I modified the code to get the values that were being MOVED and concatenated them to get the flag.
+```py
+def OP_MOV(self):
+    global Q
+    Q.append(self.arch.MEMORY[self.arch.MEMORY[self.arch.MAR + 1]])
+    print(f"MOVING VALUE {self.arch.MEMORY[self.arch.MEMORY[self.arch.MAR + 1]]} from loc {self.arch.MEMORY[self.arch.MAR + 1]} to {self.arch.IR & 0x0FFF}")
+
+    self.arch.MEMORY[self.arch.IR & 0x0FFF] = self.arch.MEMORY[self.arch.MEMORY[self.arch.MAR + 1]]
+    self.arch.clock += 1
+    self.arch.PC += 1
+```
+
+```py
+Q = []
+if __name__ == "__main__":
+    p = VESP()
+    
+    program = load_program_file('writeright.vsp')
+    p.load(program)
+
+    while not p.arch.reset:
+        p.execute_one_instruction()
+
+    print('flag{' + ''.join("{:02x}".format(x) for x in Q) + '}')
+```
+
 ```
 ...
-Executing OP_MOV
-MOVING VALUE 180 from loc 0 to 512
-Executing OP_LDA
-LOADING VALUE 9 to location 1
-Executing OP_LDA
-LOADING VALUE 103 to location 0
-Executing OP_ADD
-ADDED 103 + 9 = 112
-Executing OP_MOV
-MOVING VALUE 112 from loc 0 to 576
-Executing OP_HLT
 flag{cf733ac4f3f48190204a903607a1b470}
 ```
 
